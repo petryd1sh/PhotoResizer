@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="PhotoResizerClassLibrary\Class1.cs">
+        <Link>PhotoResizerLibrary\Class1.cs</Link>
+      </Compile>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+      <Compile Remove="PhotoResizerClassLibrary\**" />
+      <Compile Remove="PhotoResizerControlLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="PhotoResizerClassLibrary\**" />
+      <EmbeddedResource Remove="PhotoResizerControlLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="PhotoResizerClassLibrary\**" />
+      <None Remove="PhotoResizerControlLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ConsoleControl" Version="1.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="PhotoResizerClassLibrary\PhotoResizerClassLibrary.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\DataSources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+</Project>
