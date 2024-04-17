@@ -122,7 +122,7 @@ public class ResizerService
 
         long resizedSize = 0;
         var quality = 93;
-        //long lastSizeDifference = 0;
+        long lastSizeDifference = 0;
         do
         {
             resizedPhotoStream.SetLength(0);
@@ -134,9 +134,9 @@ public class ResizerService
             photo.Save(resizedPhotoStream, ici, eps);
             resizedSize = resizedPhotoStream.Length / 1000;
 
-            //long sizeDifference = resizedSize - MAX_PHOTO_SIZE_KB;
+            long sizeDifference = resizedSize - MAX_PHOTO_SIZE_KB;
             //Console.WriteLine(resizedSize + "(" + sizeDifference + " " + (lastSizeDifference - sizeDifference) + ")");
-            //lastSizeDifference = sizeDifference;
+            lastSizeDifference = sizeDifference;
             quality--;
 
         } while (resizedSize > MAX_PHOTO_SIZE_KB);

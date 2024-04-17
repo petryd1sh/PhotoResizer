@@ -1,4 +1,6 @@
-﻿namespace PhotoResizer;
+﻿using System.ComponentModel;
+
+namespace PhotoResizer;
 
 partial class Form1
 {
@@ -29,27 +31,30 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-        resize = new Button();
+        resizeButton = new Button();
         workingDirectory = new ListBox();
         chooseDirectory = new Button();
         folderBrowserDialog1 = new FolderBrowserDialog();
         output = new ListBox();
         maxImageSizeInKb = new TextBox();
         label1 = new Label();
+        backgroundWorker1 = new BackgroundWorker();
+        progressBar1 = new ProgressBar();
+        cancelButton = new Button();
         SuspendLayout();
         // 
         // resize
         // 
-        resize.BackColor = SystemColors.Control;
-        resize.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        resize.ForeColor = SystemColors.ControlText;
-        resize.Location = new Point(393, 23);
-        resize.Name = "resize";
-        resize.Size = new Size(85, 23);
-        resize.TabIndex = 0;
-        resize.Text = "Resize";
-        resize.UseVisualStyleBackColor = false;
-        resize.Click += resizeButton_Click;
+        resizeButton.BackColor = SystemColors.Control;
+        resizeButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        resizeButton.ForeColor = SystemColors.ControlText;
+        resizeButton.Location = new Point(393, 23);
+        resizeButton.Name = "resizeButton";
+        resizeButton.Size = new Size(85, 23);
+        resizeButton.TabIndex = 0;
+        resizeButton.Text = "Resize";
+        resizeButton.UseVisualStyleBackColor = false;
+        resizeButton.Click += resizeButton_Click;
         // 
         // workingDirectory
         // 
@@ -97,17 +102,40 @@ partial class Form1
         label1.TabIndex = 5;
         label1.Text = "Max Image Size in KB:";
         // 
+        // backgroundWorker1
+        // 
+        backgroundWorker1.WorkerReportsProgress = true;
+        // 
+        // progressBar1
+        // 
+        progressBar1.Location = new Point(519, 26);
+        progressBar1.Name = "progressBar1";
+        progressBar1.Size = new Size(342, 23);
+        progressBar1.TabIndex = 6;
+        // 
+        // cancelButton
+        // 
+        cancelButton.Location = new Point(896, 25);
+        cancelButton.Name = "cancelButton";
+        cancelButton.Size = new Size(75, 23);
+        cancelButton.TabIndex = 7;
+        cancelButton.Text = "Cancel";
+        cancelButton.UseVisualStyleBackColor = true;
+        cancelButton.Click += cancelButton_Click;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1008, 729);
+        Controls.Add(cancelButton);
+        Controls.Add(progressBar1);
         Controls.Add(label1);
         Controls.Add(maxImageSizeInKb);
         Controls.Add(output);
         Controls.Add(chooseDirectory);
         Controls.Add(workingDirectory);
-        Controls.Add(resize);
+        Controls.Add(resizeButton);
         Name = "Form1";
         Text = "PhotoResizer";
         ResumeLayout(false);
@@ -116,11 +144,14 @@ partial class Form1
 
     #endregion
 
-    private Button resize;
+    private Button resizeButton;
     private ListBox workingDirectory;
     private Button chooseDirectory;
     private FolderBrowserDialog folderBrowserDialog1;
     private ListBox output;
     private TextBox maxImageSizeInKb;
     private Label label1;
+    private BackgroundWorker backgroundWorker1;
+    private ProgressBar progressBar1;
+    private Button cancelButton;
 }
