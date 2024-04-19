@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using PhotoResizerLibrary;
 using System.Runtime.InteropServices;
 
@@ -20,22 +21,31 @@ public partial class Form1 : Form
         backgroundWorker1.WorkerSupportsCancellation = true;
     }
 
-    private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+    private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
     {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
         var count = 0.0;
         var parallelOptions = new ParallelOptions
         {
-            MaxDegreeOfParallelism = 20
+            MaxDegreeOfParallelism = 50
         };
-        Task.Factory.StartNew(() =>
-        {
-            if (backgroundWorker1.CancellationPending)
-            {
-                e.Cancel = true;
-                backgroundWorker1.ReportProgress(0);
-            }
-        });
-
+        
+        // foreach (var image in ImageList)
+        // {
+        //     if (backgroundWorker1.CancellationPending)
+        //     {
+        //         Console.WriteLine(backgroundWorker1.CancellationPending);
+        //         e.Cancel = true;
+        //         backgroundWorker1.ReportProgress(0);
+        //     }
+        //     var result = ResizerService.ProcessImage(image);
+        //     var percentProgress = count / ImageList.Count * 100;
+        //     Console.WriteLine($"Progress {percentProgress}");
+        //     count++;
+        //     backgroundWorker1.ReportProgress(Convert.ToInt32(percentProgress));
+        //     output.Items.Add($"Completed {result.FullName} {result.Length / 1000}KB");
+        // }
         
         Parallel.ForEach(ImageList, parallelOptions, image =>
         {
@@ -46,11 +56,12 @@ public partial class Form1 : Form
             backgroundWorker1.ReportProgress(Convert.ToInt32(percentProgress));
             output.Items.Add($"Completed {result.FullName} {result.Length / 1000}KB");
         });
-        output.Items.Add($"Finished {count} files.");
+        stopwatch.Stop();
+        output.Items.Add($"Finished {count} files in {stopwatch.Elapsed}");
         backgroundWorker1.ReportProgress(100);
     }
 
-    private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+    private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
         progressBar1.Value = e.ProgressPercentage;
     }

@@ -128,7 +128,7 @@ partial class Form1
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1008, 729);
-        Controls.Add(cancelButton);
+        //Controls.Add(cancelButton);
         Controls.Add(progressBar1);
         Controls.Add(label1);
         Controls.Add(maxImageSizeInKb);
