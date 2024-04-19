@@ -43,7 +43,7 @@ partial class Form1
         cancelButton = new Button();
         SuspendLayout();
         // 
-        // resize
+        // resizeButton
         // 
         resizeButton.BackColor = SystemColors.Control;
         resizeButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -108,9 +108,9 @@ partial class Form1
         // 
         // progressBar1
         // 
-        progressBar1.Location = new Point(519, 26);
+        progressBar1.Location = new Point(497, 23);
         progressBar1.Name = "progressBar1";
-        progressBar1.Size = new Size(342, 23);
+        progressBar1.Size = new Size(479, 23);
         progressBar1.TabIndex = 6;
         // 
         // cancelButton
@@ -128,7 +128,6 @@ partial class Form1
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1008, 729);
-        //Controls.Add(cancelButton);
         Controls.Add(progressBar1);
         Controls.Add(label1);
         Controls.Add(maxImageSizeInKb);
