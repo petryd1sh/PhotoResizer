@@ -31,39 +31,26 @@ public partial class Form1 : Form
             MaxDegreeOfParallelism = 50
         };
         
-        // foreach (var image in ImageList)
-        // {
-        //     if (backgroundWorker1.CancellationPending)
-        //     {
-        //         Console.WriteLine(backgroundWorker1.CancellationPending);
-        //         e.Cancel = true;
-        //         backgroundWorker1.ReportProgress(0);
-        //     }
-        //     var result = ResizerService.ProcessImage(image);
-        //     var percentProgress = count / ImageList.Count * 100;
-        //     Console.WriteLine($"Progress {percentProgress}");
-        //     count++;
-        //     backgroundWorker1.ReportProgress(Convert.ToInt32(percentProgress));
-        //     output.Items.Add($"Completed {result.FullName} {result.Length / 1000}KB");
-        // }
-        
         Parallel.ForEach(ImageList, parallelOptions, image =>
         {
             var result = ResizerService.ProcessImage(image);
             var percentProgress = count / ImageList.Count * 100;
             Console.WriteLine($"Progress {percentProgress}");
             count++;
-            backgroundWorker1.ReportProgress(Convert.ToInt32(percentProgress));
+            var percentProgressOutput = Convert.ToInt32(percentProgress);
+            backgroundWorker1.ReportProgress(percentProgressOutput);
             output.Items.Add($"Completed {result.FullName} {result.Length / 1000}KB");
         });
         stopwatch.Stop();
         output.Items.Add($"Finished {count} files in {stopwatch.Elapsed}");
         backgroundWorker1.ReportProgress(100);
+        resizeButton.Enabled = true;
     }
 
     private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
         progressBar1.Value = e.ProgressPercentage;
+        progressBar1.Text = e.ProgressPercentage.ToString();
     }
     
     private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

@@ -9,7 +9,7 @@ public class ResizerService
     public ResizerConfig ResizerConfig { get; set; }
     public ResizerService()
     {
-        ResizerConfig = new ResizerConfig().WithMaxImageSizeInKiloBytes(1024);
+        ResizerConfig = new ResizerConfig().WithMaxImageSizeInKiloBytes(MAX_PHOTO_SIZE_KB);
     }
 
     public ResizerService(ResizerConfig resizerConfig)
@@ -21,6 +21,10 @@ public class ResizerService
     {
         ResizerConfig = ResizerConfig.WithWorkingDirectory(workingDirectory);
         var outputDirectory = workingDirectory + @"\Resized\";
+        if (Directory.Exists(outputDirectory))
+        {
+            Directory.Delete(outputDirectory, true);    
+        }
         Directory.CreateDirectory(outputDirectory);
 
         var photos = Directory.EnumerateFiles(workingDirectory, "*.jpg");
@@ -41,7 +45,7 @@ public class ResizerService
         var fi = new FileInfo(photo);
         Console.WriteLine($"Photo: {photo} {fi.Length / 1000}kB");
 
-        if (fi.Length / 1000 > MAX_PHOTO_SIZE_KB)
+        if (fi.Length / 1000 > ResizerConfig.MaxImageSizeInKiloBytes)
         {
             using (var image = Image.FromFile(photo))
             {
@@ -90,7 +94,7 @@ public class ResizerService
             var fi = new FileInfo(photo);
             Console.WriteLine($"Photo: {photo} {fi.Length / 1000}kB");
 
-            if (fi.Length / 1000 > MAX_PHOTO_SIZE_KB)
+            if (fi.Length / 1000 > ResizerConfig.MaxImageSizeInKiloBytes)
             {
                 using (var image = Image.FromFile(photo)) 
                 {
@@ -134,12 +138,12 @@ public class ResizerService
             photo.Save(resizedPhotoStream, ici, eps);
             resizedSize = resizedPhotoStream.Length / 1000;
 
-            long sizeDifference = resizedSize - MAX_PHOTO_SIZE_KB;
+            long sizeDifference = resizedSize - ResizerConfig.MaxImageSizeInKiloBytes;
             //Console.WriteLine(resizedSize + "(" + sizeDifference + " " + (lastSizeDifference - sizeDifference) + ")");
             lastSizeDifference = sizeDifference;
             quality--;
 
-        } while (resizedSize > MAX_PHOTO_SIZE_KB);
+        } while (resizedSize > ResizerConfig.MaxImageSizeInKiloBytes);
 
         resizedPhotoStream.Seek(0, SeekOrigin.Begin);
 
@@ -148,14 +152,7 @@ public class ResizerService
     
     private ImageCodecInfo GetEncoderInfo(String mimeType)
     {
-        int j;
-        ImageCodecInfo[] encoders;
-        encoders = ImageCodecInfo.GetImageEncoders();
-        for (j = 0; j < encoders.Length; ++j)
-        {
-            if (encoders[j].MimeType == mimeType)
-                return encoders[j];
-        }
-        return null;
+        var encoders = ImageCodecInfo.GetImageEncoders().Where(p => p.MimeType == mimeType).ToList();
+        return encoders.FirstOrDefault() ?? throw new InvalidOperationException($"Unable to find encoder for {mimeType}");
     }
 }

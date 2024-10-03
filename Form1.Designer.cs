@@ -115,10 +115,10 @@ partial class Form1
         // 
         // cancelButton
         // 
-        cancelButton.Location = new Point(896, 25);
+        cancelButton.Location = new Point(393, 23);
         cancelButton.Name = "cancelButton";
-        cancelButton.Size = new Size(75, 23);
-        cancelButton.TabIndex = 7;
+        cancelButton.Size = new Size(85, 23);
+        cancelButton.TabIndex = 0;
         cancelButton.Text = "Cancel";
         cancelButton.UseVisualStyleBackColor = true;
         cancelButton.Click += cancelButton_Click;
@@ -127,7 +127,8 @@ partial class Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1008, 729);
+        CancelButton = cancelButton;
+        ClientSize = new Size(1008, 577);
         Controls.Add(progressBar1);
         Controls.Add(label1);
         Controls.Add(maxImageSizeInKb);
@@ -135,6 +136,7 @@ partial class Form1
         Controls.Add(chooseDirectory);
         Controls.Add(workingDirectory);
         Controls.Add(resizeButton);
+        Controls.Add(cancelButton);
         Name = "Form1";
         Text = "PhotoResizer";
         ResumeLayout(false);
